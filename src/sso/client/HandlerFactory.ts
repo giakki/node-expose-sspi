@@ -4,7 +4,7 @@ import { DigestHandler } from './DigestHandler';
 import { NegotiateHandler } from './NegotiateHandler';
 
 export class HandlerFactory {
-  static instantiate(authenticationType: string): AbstractHandler {
+  static instantiate(authenticationType: string): AbstractHandler | null {
     if (authenticationType === 'Negotiate') {
       return new NegotiateHandler();
     }
@@ -17,6 +17,6 @@ export class HandlerFactory {
     if (authenticationType === 'Digest') {
       return new DigestHandler();
     }
-    throw new Error('Cannot handle this authentication method');
+    return null;
   }
 }

@@ -72,14 +72,14 @@ export class NegotiateHandler extends AbstractHandler {
       response.status === 401 &&
       response.headers
         .get('www-authenticate')
-        ?.startsWith(this.authenticationType)
+        ?.includes(this.authenticationType)
     ) {
       const wwwAuthenticateHeader = response.headers.get(
         'www-authenticate'
       ) as string;
       debug('wwwAuthenticateHeader: ', wwwAuthenticateHeader);
       if (clientSecurityContext) {
-        if (!wwwAuthenticateHeader.startsWith(this.authenticationType + ' ')) {
+        if (!wwwAuthenticateHeader.includes(this.authenticationType + ' ')) {
           break;
         }
         const bufferStr = wwwAuthenticateHeader

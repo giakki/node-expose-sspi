@@ -121,8 +121,17 @@ export class Client {
       return response;
     }
 
-    const authenticationType = authHeader.split(/[, ]/)[0];
-    const handler = HandlerFactory.instantiate(authenticationType);
+    const authenticationType = authHeader.split(/[, ]/);
+    let handler = null;
+    for (const type of authenticationType) {
+      handler = HandlerFactory.instantiate(type);
+      if (handler) {
+        break;
+      }
+    }
+    if (!handler) {
+      throw new Error('Cannot handle this authentication method');
+    }
     return await handler.handle(
       this.clientInfo,
       this.clientCookie,
